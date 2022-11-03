@@ -1,0 +1,69 @@
+models:
+  User:
+    name: string
+    email: string, unique
+    email_verified_at: timestamp, nullable
+    password: string
+    direction: string
+    phone: string
+    type: integer
+    relationships:
+      hasMany: Client, Admin, Cart
+
+
+  Category:
+    name: string
+    image: string
+    description: string
+    relationships:
+      hasMany: Product
+  
+  Product:
+    name: string
+    price: double
+    description: string
+    image: string
+    height: double
+    width: double
+    weight: double
+    category_id: id foreign
+    relationships:
+      hasMany: SaleDetail, Cart
+  
+  Cart:
+    amount: double
+    user_id: id foreign
+    product_id: id foreign  
+
+  Sale:
+    status: integer
+    direction: string, nullable
+    guide: string, nullable
+    relationships:
+      hasMany: Client, Admin, SaleDetail
+  
+  SaleDetail:
+    status: integer
+    amount: double
+    price: double
+    subtotal: double
+    sale_id: id foreign
+    product_id: id foreign
+
+  Client:
+    user_id: id foreign
+    sale_id: id foreign
+  
+  Admin:
+    user_id: id foreign
+    sale_id: id foreign
+
+controllers:
+  User:
+    resource: web
+  Sale:
+    resource: web
+  Product:
+    resource: web
+  Category:
+    resource: web
